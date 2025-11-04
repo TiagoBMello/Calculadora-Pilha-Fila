@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "C:\\Program Files\\CodeBlocks\\MinGW\\bin\\gcc.exe",
+      "args": [
+        "-std=c11", "-Wall", "-Wextra", "-O2",
+        "${workspaceFolder}/*.c",
+        "-o", "${workspaceFolder}/bin/app.exe"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
