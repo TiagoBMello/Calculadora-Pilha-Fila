@@ -60,3 +60,33 @@ void liberar_fila(Fila *f) {
         free(f);
     }
 }
+
+void imprimir_fila(Fila *f) {
+    if (fila_vazia(f)) {
+        printf("(vazia)");
+        return;
+    }
+    
+    int i = f->inicio;
+    int contador = 0;
+    
+    while (contador < f->qtd) {
+        int item = f->dados[i];
+        
+        if (item >= 0) {
+            // É número
+            printf("%d", item);
+        } else {
+            // É operador (negativo)
+            printf("%c", (char)(-item));
+        }
+        
+        // Se não for o último item, imprime a vírgula e espaço
+        if (contador < f->qtd - 1) {
+            printf(", ");
+        }
+        
+        i = (i + 1) % TAM_MAX_FILA;
+        contador++;
+    }
+}

@@ -1,17 +1,34 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build",
-      "type": "shell",
-      "command": "C:\\Program Files\\CodeBlocks\\MinGW\\bin\\gcc.exe",
-      "args": [
-        "-std=c11", "-Wall", "-Wextra", "-O2",
-        "${workspaceFolder}/*.c",
-        "-o", "${workspaceFolder}/bin/app.exe"
-      ],
-      "group": { "kind": "build", "isDefault": true },
-      "problemMatcher": ["$gcc"]
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compilar e Executar Calculadora",
+            "type": "shell",
+            // Comando que você usou com sucesso (compila)
+            "command": "& \"C:\\Program Files\\CodeBlocks\\MinGW\\bin\\gcc.exe\" -std=c11 -Wall -Wextra -O2 main.c avaliar_expressao_posfixa.c converter_infixa_para_posfixa.c fila.c ler_expressao_para_fila.c pilha.c regra_operadores.c validar_e_espacos.c -o bin/app.exe",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Executar Calculadora",
+            "type": "shell",
+            // Executa o app após a compilação
+            "command": ".\\bin\\app.exe",
+            "dependsOn": [
+                "Compilar e Executar Calculadora"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        }
+    ]
 }

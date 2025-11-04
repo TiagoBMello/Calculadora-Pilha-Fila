@@ -27,3 +27,5 @@ int desenfileirar(Fila *f);
 
 // libera a memória da fila
 void liberar_fila(Fila *f);
+
+void imprimir_fila(Fila *f);
