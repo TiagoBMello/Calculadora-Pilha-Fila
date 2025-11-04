@@ -2,13 +2,8 @@
 #include <stdio.h>
 #include "validar_e_espacos.h"
 
-int eh_digito(char c) {
+static int eh_digito(char c) {
     if (c >= '0' && c <= '9') return 1;
-    else return 0;
-}
-
-int eh_operador_binario(char c) {
-    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') return 1;
     else return 0;
 }
 

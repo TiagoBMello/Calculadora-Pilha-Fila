@@ -3,17 +3,17 @@
 #include <stdio.h>
 #include "ler_expressao_para_fila.h"
 
-int eh_digito(char c) {
+static int eh_digito(char c) {
     if (c >= '0' && c <= '9') return 1;
     else return 0;
 }
 
-int eh_operador_binario(char c) {
+static int eh_operador_binario(char c) {
     if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') return 1;
     else return 0;
 }
 
-int ler_expressao_para_fila(char *s, Fila *fila_infixa) {
+int ler_expressao_para_fila(const char *s, Fila *fila_infixa) {
     int i = 0;
     if (s == NULL) return 0;
 
