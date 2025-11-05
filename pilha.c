@@ -1,9 +1,8 @@
-// pilha.c
 #include <stdio.h>
 #include <stdlib.h>
 #include "pilha.h"
 
-Pilha* criar_pilha(void) {
+Pilha* criar_pilha() {
     Pilha *p = (Pilha*) malloc(sizeof(Pilha));
     if (p == NULL) {
         printf("Erro de memoria na pilha\n");

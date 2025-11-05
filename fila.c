@@ -1,9 +1,8 @@
-// fila.c
 #include <stdio.h>
 #include <stdlib.h>
 #include "fila.h"
 
-Fila* criar_fila(void) {
+Fila* criar_fila() {
     Fila *f = (Fila*) malloc(sizeof(Fila));
     if (f == NULL) {
         printf("Erro de memoria na fila\n");
@@ -66,26 +65,18 @@ void imprimir_fila(Fila *f) {
         printf("(vazia)");
         return;
     }
-    
     int i = f->inicio;
     int contador = 0;
-    
     while (contador < f->qtd) {
         int item = f->dados[i];
-        
         if (item >= 0) {
-            // É número
             printf("%d", item);
         } else {
-            // É operador (negativo)
             printf("%c", (char)(-item));
         }
-        
-        // Se não for o último item, imprime a vírgula e espaço
         if (contador < f->qtd - 1) {
             printf(", ");
         }
-        
         i = (i + 1) % TAM_MAX_FILA;
         contador++;
     }

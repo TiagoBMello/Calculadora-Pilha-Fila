@@ -1,98 +1,102 @@
-// converter_infixa_para_posfixa.c
+//etapa 2: converter a expressão infixa para pós-fixa
+
 #include <stdio.h>
 #include "pilha.h"
 #include "fila.h"
 #include "regra_operadores.h"
 #include "converter_infixa_para_posfixa.h"
 
+//função: converter infixa -> pós-fixa
 int converter_infixa_para_posfixa(Fila *fila_entrada, Fila *fila_posfixa) {
+    //cria a pilha que será usada para armazenar os operadores
     Pilha *pilha_operadores = criar_pilha();
     if (pilha_operadores == NULL) {
         return 0;
     }
 
+    //loop que processa cada item da fila infixa
     while (!fila_vazia(fila_entrada)) {
         int item = desenfileirar(fila_entrada);
-
-        // 1. É número (>=0)
+        //se for número
         if (item >= 0) {
             enfileirar(fila_posfixa, item);
         }
         
-        // 2. É operador/parêntese (< 0)
+        //se for caractere
         else {
             char operador = (char)(-item);
-
-            // 2a. Abre parêntese: empilha
+            //lógica de abrir parênteses
             if (operador == '(') {
-                empilhar(pilha_operadores, (int)operador);
+                //sempre que abrir parêntese é empilhado.
+                empilhar(pilha_operadores, operador);
             }
 
-            // 2b. Fecha parêntese: desempilha até achar '('
+            //lógica de fechar parênteses
             else if (operador == ')') {
                 int achou_abre = 0;
+                //desempilha e enfileira tudo até achar o parênteses que abre
                 while (!pilha_vazia(pilha_operadores)) {
-                    char operador_no_topo = (char) pilha_operadores->dados[pilha_operadores->topo];
+                    char operador_no_topo = pilha_operadores->dados[pilha_operadores->topo];
                     if (operador_no_topo == '(') {
-                        (void)desempilhar(pilha_operadores); // descarta '('
+                        desempilhar(pilha_operadores); // descarta (
                         achou_abre = 1;
                         break;
-                    } else {
-                        // manda operador do topo para a fila pós-fixa
+                    } 
+                    else {
+                        //operador do topo para a fila pós-fixa
                         enfileirar(fila_posfixa, -(int)operador_no_topo);
-                        (void)desempilhar(pilha_operadores);
+                        desempilhar(pilha_operadores);
                     }
                 }
+                //validacão se não achar o parênteses que abre
                 if (!achou_abre) {
-                    printf("Expressão Inválida.\n");
+                    printf("ERRO. Expressão Inválida.\n");
                     liberar_pilha(pilha_operadores);
                     return 0;
                 }
             }
 
-            // 2c. Operador normal: + - * / ^
-            else if (operador == '+' || operador == '-' || operador == '*' ||
-                     operador == '/' || operador == '^') {
-
+            //lógica dos operadores normais
+            else if (operador == '+' || operador == '-' || operador == '*' || operador == '/' || operador == '^') {
                 int forca_atual = precedencia_do_operador(operador);
 
-                // desempilha enquanto o topo for operador mais forte (ou mesma força para esquerda)
+                //compara a força do operador atual com o operador no topo
                 while (!pilha_vazia(pilha_operadores)) {
-                    char operador_no_topo = (char) pilha_operadores->dados[pilha_operadores->topo];
-
+                    char operador_no_topo = pilha_operadores->dados[pilha_operadores->topo];
                     if (operador_no_topo == '(') {
-                        break; // não atravessa '('
+                        break;
                     }
-
                     int forca_topo = precedencia_do_operador(operador_no_topo);
-
                     int deve_desempilhar = 0;
+
+                    //se o do topo for mais forte, desempilha
                     if (forca_topo > forca_atual) {
                         deve_desempilhar = 1;
-                    } else if (forca_topo == forca_atual) {
+                    } 
+                    //se tiverem a mesma força
+                    else if (forca_topo == forca_atual) {
                         if (operador == '^') {
-                            // associatividade à DIREITA -> não desempilha quando mesma força
+                            //não desempilha, ^ é do número da direita
                             deve_desempilhar = 0;
                         } else {
-                            // + - * / são à ESQUERDA -> desempilha quando mesma força
+                            //desempilha, eles são do número da esquerda
                             deve_desempilhar = 1;
                         }
-                    } else {
+                    } 
+                    else {
                         deve_desempilhar = 0;
                     }
+                    if (!deve_desempilhar) 
+                        break;
 
-                    if (!deve_desempilhar) break;
-
-                    // manda topo para a pós-fixa
+                    //desempilha o operador do topo para a fila pós-fixa
                     enfileirar(fila_posfixa, -(int)operador_no_topo);
-                    (void)desempilhar(pilha_operadores);
+                    desempilhar(pilha_operadores);
                 }
 
                 // empilha o operador atual
                 empilhar(pilha_operadores, (int)operador);
             }
-            
-            // 2d. Caractere inválido
             else {
                 printf("Expressão Inválida.\n");
                 liberar_pilha(pilha_operadores);
@@ -101,18 +105,16 @@ int converter_infixa_para_posfixa(Fila *fila_entrada, Fila *fila_posfixa) {
         }
     }
 
-    // joga fora o que sobrou na pilha (só devem sobrar operadores)
+    //joga o que sobrou na pilha para a fila de pós-fixa
     while (!pilha_vazia(pilha_operadores)) {
         char operador_no_topo = (char) pilha_operadores->dados[pilha_operadores->topo];
-        (void)desempilhar(pilha_operadores);
-
+        desempilhar(pilha_operadores);
         if (operador_no_topo == '(' || operador_no_topo == ')') {
-            // parênteses desbalanceados
             printf("Expressão Inválida.\n");
             liberar_pilha(pilha_operadores);
             return 0;
         }
-
+        //operador restante para o final da fila pós-fixa
         enfileirar(fila_posfixa, -(int)operador_no_topo);
     }
 
