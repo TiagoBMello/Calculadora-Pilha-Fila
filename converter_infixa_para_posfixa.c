@@ -1,4 +1,4 @@
-//etapa 2: converter a expressão infixa para pós-fixa
+//etapa 3: converter a expressão infixa para pós-fixa
 
 #include <stdio.h>
 #include "pilha.h"

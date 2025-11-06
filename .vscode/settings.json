@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "avaliar_expressao_posfixa.h": "c"
+        "avaliar_expressao_posfixa.h": "c",
+        "converter_infixa_para_posfixa.h": "c"
     }
 }

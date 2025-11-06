@@ -1,4 +1,4 @@
-//etapa 3: calcular a expressão pós-fixa
+//etapa 4: calcular a expressão pós-fixa
 
 #include <stdio.h>
 #include "pilha.h"

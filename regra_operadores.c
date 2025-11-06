@@ -1,4 +1,4 @@
-//regra que define a força dos operadores.
+//regra que define a força dos operadores
 
 #include "regra_operadores.h"
 
