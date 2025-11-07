@@ -1,6 +1,4 @@
-// main.c
 #include <stdio.h>
-
 #include "fila.h"
 #include "validar_e_espacos.h"
 #include "ler_expressao_para_fila.h"
@@ -9,81 +7,83 @@
 
 int main() {
     char linha[1024];
-    int repetir;      // 1 = pede de novo; 0 = encerra
-    int resultado;    // guarda o resultado final
+    int repetir;
+    int resultado;
 
     printf("======================\n");
-    printf("Calculadora (Pilha e Fila)\n");
-    printf("Operadores: + - * / ^   Parenteses: ( )\n");
-    printf("Aceita - unario (ex.: -3). Divisao inteira.\n\n");
+    printf("Trabalho Estrutura de Dados - Calculadora\n");
 
+
+    //loop principal, se errar na digitação ele pede pra escrever de novo 
     repetir = 1;
     while (repetir == 1) {
         printf("\nExpressao: ");
-
-        // lê a linha inteira até '\n' (permite espaços)
+        //le a linha inteira até '\n', permitindo espaços tb
         if (scanf(" %1023[^\n]", linha) != 1) {
-            return 0; // fim da entrada
+            return 0;
         }
      
-        // 1) Validar
+        //1ª etapa: validar
         if (validar_expressao(linha)) {
-
-            // 2) Remover espacos (in-place)
+            //remover espacos
             remover_espacos(linha);
-            printf("--- Etapa 1 ---\n");
-            printf("Expressao sem espacos: %s\n", linha); // Mostra sem espaços
+            printf("======================\n");
+            printf("ETAPA 1 \n\n");
+            printf("Expressao sem espacos: %s\n", linha);
 
-            // 3) Criar filas
+            //criar as filas
             Fila *fila_infixa  = criar_fila();
             Fila *fila_posfixa = criar_fila();
-
             if (fila_infixa != NULL && fila_posfixa != NULL) {
-
-                // 4) String -> Fila infixa
+                //transformar a expressão ainda string em fila infixa
                 if (ler_expressao_para_fila(linha, fila_infixa)) {
-                    printf("Fila Infixa (Tokens): "); 
+                    printf("Fila Infixa: "); 
                     imprimir_fila(fila_infixa);
                     printf("\n");
 
-                    // 5) Infixa -> Pos-fixa
+                    //2ª etapa: tranformar fila infixa em pós fixa
                     if (converter_infixa_para_posfixa(fila_infixa, fila_posfixa)) {
-                        printf("--- Etapa 2 ---\n");
-                        printf("Fila Pos-fixa (RPN): "); 
+                        printf("======================\n");
+                        printf("ETAPA 2 \n\n");
+                        printf("Fila Pos-fixa: "); 
                         imprimir_fila(fila_posfixa);
                         printf("\n");
 
-                        // 6) Avaliar pos-fixa
+                        //3ª etapa: avaliar a fila pos-fixa
                         if (avaliar_expressao_posfixa(fila_posfixa, &resultado)) {
-                            printf("--- Etapa 3 ---\n");
+                            printf("======================\n");
+                            printf("ETAPA 3 \n\n");
                             printf("Resultado Final: %d\n", resultado);
-                            repetir = 0; // deu certo, pode encerrar
-                        } else {
-                            // Erro interno (avaliação) - Funções internas imprimem "ERRO. Expressão Inválida."
+                            repetir = 0; //deu certo, encerra
+                        } 
+
+                        //fechando todos os elses dos ifs que abrimos, todos eles são para caso a expressão esteja errada
+                        else {
                             printf("Digite novamente.\n");
                         }
-                    } else {
-                        // Erro interno (conversão) - Funções internas imprimem "ERRO. Expressão Inválida."
+                    } 
+                    else {
                         printf("Digite novamente.\n");
                     }
-                } else {
-                    // Erro interno (leitura/tokenização) - Funções internas imprimem "ERRO. Expressão Inválida."
+                } 
+                else {
                     printf("Digite novamente.\n");
                 }
-            } else {
-                // Falha na criação das filas
-                printf("ERRO. Expressão Inválida.\n");
+            } 
+            else {
+                printf("Expressão Inválida.\n");
                 printf("Digite novamente.\n");
             }
 
-            // libera filas se foram criadas
-            if (fila_infixa  != NULL) liberar_fila(fila_infixa);
-            if (fila_posfixa != NULL) liberar_fila(fila_posfixa);
-        } else {
-            // validação falhou - Funções internas imprimem "ERRO. Expressão Inválida."
+            //libera filas se foram criadas
+            if (fila_infixa  != NULL) 
+                liberar_fila(fila_infixa);
+            if (fila_posfixa != NULL) 
+                liberar_fila(fila_posfixa);
+        } 
+        else {
             printf("Digite novamente.\n");
         }
     }
-
     return 0;
 }
