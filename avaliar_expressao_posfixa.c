@@ -1,3 +1,9 @@
+//Trabalho Estrutura de Dados
+
+//Grupo: 
+//Tiago Mello - 23014024
+//Vinicius Nunes - 23011585
+
 //etapa 4: calcular a expressão pós-fixa
 
 #include <stdio.h>

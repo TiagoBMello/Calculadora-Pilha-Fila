@@ -1,3 +1,9 @@
+//Trabalho Estrutura de Dados
+
+//Grupo: 
+//Tiago Mello - 23014024
+//Vinicius Nunes - 23011585
+
 //etapa 1:  validar e remover os espaços
 //aqui ta a logica que aceita - unario
 #include <stdio.h>
