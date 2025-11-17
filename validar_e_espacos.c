@@ -84,12 +84,12 @@ int validar_expressao(char expressao[]) {
         else if (caractere == ')') {
             //não pode vir no início, nem depois de operador, nem depois de (
             if (estado_anterior == 0 || estado_anterior == 2 || estado_anterior == 3) {
-                printf("ERRO. Expressão Inválida.\n"); 
+                printf("Expressão Inválida.\n"); 
                 return 0; 
             }
             abre_parenteses--;
             if (abre_parenteses < 0) { 
-                printf("ERRO. Expressão Inválida.\n"); 
+                printf("Expressão Inválida.\n"); 
                 return 0; 
             }
             estado_anterior = 4;
